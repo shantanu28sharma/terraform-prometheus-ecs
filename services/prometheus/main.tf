@@ -25,10 +25,10 @@ resource "aws_autoscaling_group" "prometheus" {
   health_check_grace_period = 300
   health_check_type         = "EC2"
   launch_configuration      = aws_launch_configuration.prometheus.name
-  
+
   vpc_zone_identifier  = var.vpc_subnets
   termination_policies = ["OldestInstance"]
-  availability_zones   = [var.availability_zone]
+  # availability_zones   = [var.availability_zone]
 
   enabled_metrics = [
     "GroupTotalInstances",
