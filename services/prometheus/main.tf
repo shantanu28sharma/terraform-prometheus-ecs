@@ -1,6 +1,6 @@
 locals {
   config_bucket_name = "${var.name}.${var.domain}"
-  vpc_subnets        = split(",", var.vpc_subnets)
+  # vpc_subnets        = split(",", var.vpc_subnets)
 
   az_map = {
     "us-east-1a" = 0
@@ -25,7 +25,7 @@ resource "aws_autoscaling_group" "prometheus" {
   # If the expression in the following list itself returns a list, remove the
   # brackets to avoid interpretation as a list of lists. If the expression
   # returns a single list item then leave it as-is and remove this TODO comment.
-  vpc_zone_identifier  = [element(local.vpc_subnets, local.az_map[var.availability_zone])]
+  # vpc_zone_identifier  = [element(local.vpc_subnets, local.az_map[var.availability_zone])]
   termination_policies = ["OldestInstance"]
   availability_zones   = [var.availability_zone]
 
