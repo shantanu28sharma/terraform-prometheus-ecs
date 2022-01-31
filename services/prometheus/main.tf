@@ -9,6 +9,14 @@ locals {
   }
 }
 
+data "aws_subnet_ids" "private" {
+  vpc_id = var.vpc_id
+
+  tags = {
+    Tier = "Private"
+  }
+}
+
 resource "aws_autoscaling_group" "prometheus" {
   name                      = var.name
   desired_capacity          = 1
@@ -25,7 +33,7 @@ resource "aws_autoscaling_group" "prometheus" {
   # If the expression in the following list itself returns a list, remove the
   # brackets to avoid interpretation as a list of lists. If the expression
   # returns a single list item then leave it as-is and remove this TODO comment.
-  # vpc_zone_identifier  = [element(local.vpc_subnets, local.az_map[var.availability_zone])]
+  vpc_zone_identifier  = ["${data.aws_subnet_ids.all.ids}"]
   termination_policies = ["OldestInstance"]
   availability_zones   = [var.availability_zone]
 
