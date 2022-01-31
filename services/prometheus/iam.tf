@@ -142,25 +142,27 @@ EOF
 
 
 resource "aws_iam_policy" "logs" {
-  name_prefix = "${var.name}-task-policy-"
-  path        = "/"
+  name_prefix = "${var.name}-logs-policy-"
 
-  policy = jsonencode(
-    {
-      "Version" : "2012-10-17",
-      "Statement" : [
+  policy = <<EOF
+{
+    "Version" : "2012-10-17",
+    "Statement" : [
         {
+          "Effect" : "Allow",
           "Action" : [
-            "logs:CreateLogGroup",
-            "logs:CreateLogStream",
-            "logs:PutLogEvents"
+              "logs:CreateLogGroup",
+              "logs:CreateLogStream",
+              "logs:PutLogEvents"
           ],
-          "Resource" : "*",
-          "Effect" : "Allow"
+          "Resource" : [
+              "*"
+          ]
         }
-      ]
-    }
-  )
+    ]
+}
+EOF
+
 }
 
 resource "aws_iam_role_policy_attachment" "prometheus_ebs_attachment" {
