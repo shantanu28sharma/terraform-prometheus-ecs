@@ -3,12 +3,12 @@
     "command": [
       "--config.file=/etc/prometheus/prometheus.yml"
     ],
-    "cpu": 0,
+    "cpu": 100,
     "entryPoint": null,
     "environment": [],
     "essential": true,
     "image": "prom/prometheus:v2.14.0",
-    "memory": 1024,
+    "memory": 100,
     "memoryReservation": null,
     "mountPoints": [
       {
@@ -34,7 +34,7 @@
   },
   {
     "command": [],
-    "cpu": 0,
+    "cpu": 100,
     "entryPoint": [],
     "environment": [],
     "essential": true,
@@ -46,7 +46,7 @@
       }
     ],
     "image": "grafana/grafana:6.4.4",
-    "memory": 1024,
+    "memory": 100,
     "memoryReservation": null,
     "mountPoints": [
       {
