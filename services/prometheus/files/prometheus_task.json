@@ -3,12 +3,12 @@
     "command": [
       "--config.file=/etc/prometheus/prometheus.yml"
     ],
-    "cpu": 100,
+    "cpu": 150,
     "entryPoint": null,
     "environment": [],
     "essential": true,
     "image": "prom/prometheus:v2.14.0",
-    "memory": 100,
+    "memory": 500,
     "memoryReservation": null,
     "mountPoints": [
       {
@@ -42,7 +42,7 @@
   },
   {
     "command": [],
-    "cpu": 100,
+    "cpu": 550,
     "entryPoint": [],
     "environment": [],
     "essential": true,
@@ -54,7 +54,7 @@
       }
     ],
     "image": "grafana/grafana:6.4.4",
-    "memory": 100,
+    "memory": 500,
     "memoryReservation": null,
     "mountPoints": [
       {
@@ -76,7 +76,7 @@
   },
   {
     "command": [],
-    "cpu": 100,
+    "cpu": 500,
     "entryPoint": [],
     "environment": [],
     "essential": true,
@@ -88,7 +88,7 @@
       }
     ],
     "image": "prom/alertmanager:v0.19.0",
-    "memory": 64,
+    "memory": 364,
     "memoryReservation": null,
     "mountPoints": [
       {
