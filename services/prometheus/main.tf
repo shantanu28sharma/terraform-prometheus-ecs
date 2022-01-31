@@ -89,6 +89,7 @@ resource "aws_security_group" "prometheus" {
   name        = var.name
   description = "${var.name} Security Group"
   vpc_id      = var.vpc_id
+  subnets = var.vpc_public_subnets
 
   tags = {
     Name = "${var.name}-${var.name}-alb"
