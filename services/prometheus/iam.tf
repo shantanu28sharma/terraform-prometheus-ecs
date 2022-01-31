@@ -119,7 +119,7 @@ resource "aws_iam_role_policy_attachment" "prometheus_s3_access" {
 resource "aws_iam_policy" "prometheus_ebs_attachment" {
   name_prefix = "s3_ebs_attachment-"
 
-  policy = <<EOF
+  policy = jsonencode(
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -135,8 +135,7 @@ resource "aws_iam_policy" "prometheus_ebs_attachment" {
             ]
         }
     ]
-}
-EOF
+})
 
 }
 
@@ -144,7 +143,7 @@ EOF
 resource "aws_iam_policy" "logs" {
   name_prefix = "${var.name}-logs-policy-"
 
-  policy = <<EOF
+  policy = jsonencode(
 {
     "Version" : "2012-10-17",
     "Statement" : [
@@ -160,8 +159,7 @@ resource "aws_iam_policy" "logs" {
           ]
         }
     ]
-}
-EOF
+})
 
 }
 
