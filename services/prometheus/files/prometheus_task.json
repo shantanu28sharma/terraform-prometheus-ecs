@@ -30,6 +30,14 @@
         "protocol": "tcp"
       }
     ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group":"/prometheus/promethues",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "LOG"
+      }
+    },
     "volumesFrom": []
   },
   {
@@ -56,6 +64,14 @@
       }
     ],
     "name": "grafana",
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group":"/prometheus/promethues",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "LOG"
+      }
+    },
     "volumesFrom": []
   },
   {
@@ -82,6 +98,14 @@
       }
     ],
     "name": "alertmanager",
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group":"/prometheus/promethues",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "LOG"
+      }
+    },
     "volumesFrom": []
   }
 ]

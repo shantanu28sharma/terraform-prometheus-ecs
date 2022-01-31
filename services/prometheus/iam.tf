@@ -131,7 +131,7 @@ resource "aws_iam_policy" "prometheus_ebs_attachment" {
             "Resource": [
                 "arn:aws:ec2:*:*:instance/*",
                 "${aws_ebs_volume.prometheus.arn}",
-                "${aws_ebs_volume.grafana.arn}"
+                "${aws_ebs_volume.grafana.arn}",
             ]
         }
     ]
@@ -140,8 +140,36 @@ EOF
 
 }
 
+
+resource "aws_iam_policy" "logs" {
+  name_prefix = "${var.name}-task-policy-"
+  path        = "/"
+
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Action" : [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+          ],
+          "Resource" : "*",
+          "Effect" : "Allow"
+        }
+      ]
+    }
+  )
+}
+
 resource "aws_iam_role_policy_attachment" "prometheus_ebs_attachment" {
   policy_arn = aws_iam_policy.prometheus_ebs_attachment.arn
+  role       = aws_iam_role.prometheus.id
+}
+
+resource "aws_iam_role_policy_attachment" "prometheus_logs" {
+  policy_arn = aws_iam_policy.logs.arn
   role       = aws_iam_role.prometheus.id
 }
 

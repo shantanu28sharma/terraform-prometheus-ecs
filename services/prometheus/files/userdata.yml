@@ -24,8 +24,8 @@ write_files:
       AWS_INSTANCE_ID=`curl -s http://169.254.169.254/latest/meta-data/instance-id`
 
       # Attach EBS
-      aws ec2 attach-volume --volume-id ${ebs_id_prometheus} --instance-id $AWS_INSTANCE_ID --device /dev/xvdx --region us-west-2
-      aws ec2 attach-volume --volume-id ${ebs_id_grafana}    --instance-id $AWS_INSTANCE_ID --device /dev/xvdz --region us-west-2
+      aws ec2 attach-volume --volume-id ${ebs_id_prometheus} --instance-id $AWS_INSTANCE_ID --device /dev/xvdx --region us-east-1
+      aws ec2 attach-volume --volume-id ${ebs_id_grafana}    --instance-id $AWS_INSTANCE_ID --device /dev/xvdz --region us-east-1
 
       # Wait few seconds for attaching
       sleep 10
