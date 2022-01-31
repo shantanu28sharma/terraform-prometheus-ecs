@@ -41,3 +41,7 @@ variable "vpc_subnets" {
 variable "ecs_cluster_id" {
   
 }
+
+variable "ecs_cluster_name" {
+  
+}

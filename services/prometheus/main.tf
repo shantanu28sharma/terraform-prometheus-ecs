@@ -81,7 +81,7 @@ data "template_file" "user_data" {
     bucket_config     = aws_s3_bucket.config.id
     ebs_id_prometheus = aws_ebs_volume.prometheus.id
     ebs_id_grafana    = aws_ebs_volume.grafana.id
-    cluster_name      = aws_ecs_cluster.prometheus.name
+    cluster_name      = var.ecs_cluster_name
   }
 }
 
