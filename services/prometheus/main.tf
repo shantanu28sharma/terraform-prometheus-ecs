@@ -115,7 +115,7 @@ resource "aws_security_group_rule" "allow_jump_host_ssh" {
   from_port                = 22
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
-  cidr_blocks       = var.cidr_block
+  cidr_blocks       = [var.cidr_block]
   to_port                  = 22
   type                     = "ingress"
 }
@@ -124,7 +124,7 @@ resource "aws_security_group_rule" "allow_jump_host_http_prometheus" {
   from_port                = 9090
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
-  cidr_blocks       = var.cidr_block
+  cidr_blocks       = [var.cidr_block]
   to_port                  = 9090
   type                     = "ingress"
 }
@@ -133,7 +133,7 @@ resource "aws_security_group_rule" "allow_jump_host_http_grafana" {
   from_port                = 3000
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
-cidr_blocks       = var.cidr_block
+cidr_blocks       = [var.cidr_block]
   to_port                  = 3000
   type                     = "ingress"
 }
@@ -142,7 +142,7 @@ resource "aws_security_group_rule" "allow_jump_host_http_alertmanager" {
   from_port                = 9093
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
-  cidr_blocks       = var.cidr_block
+  cidr_blocks       = [var.cidr_block]
   to_port                  = 9093
   type                     = "ingress"
 }
