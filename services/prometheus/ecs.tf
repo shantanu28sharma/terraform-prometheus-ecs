@@ -31,7 +31,7 @@ resource "aws_ecs_service" "prometheus" {
     # If the expression in the following list itself returns a list, remove the
     # brackets to avoid interpretation as a list of lists. If the expression
     # returns a single list item then leave it as-is and remove this TODO comment.
-    subnets = [element(local.vpc_subnets, local.az_map[var.availability_zone])]
+    subnets = var.vpc_subnets
   }
 
   service_registries {
