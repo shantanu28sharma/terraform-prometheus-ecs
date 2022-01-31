@@ -35,7 +35,7 @@ resource "aws_ecs_service" "prometheus" {
   }
 
   service_registries {
-    registry_arn = aws_service_discovery_service.prometheus.arn
+    registry_arn = var.cloudmap_arn
   }
 
   depends_on = [aws_ecs_cluster.prometheus]
@@ -76,24 +76,3 @@ data "template_file" "prometheus" {
     aws_region = var.region
   }
 }
-
-# Add service discovery
-resource "aws_service_discovery_service" "prometheus" {
-  name        = var.name
-  description = var.name
-
-  dns_config {
-    dns_records {
-      ttl  = 0
-      type = "A"
-    }
-
-    namespace_id   = var.cloudmap_internal_id
-    routing_policy = "MULTIVALUE"
-  }
-
-  health_check_custom_config {
-    failure_threshold = 1
-  }
-}
-
