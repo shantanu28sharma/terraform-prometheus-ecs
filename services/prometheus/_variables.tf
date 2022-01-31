@@ -19,18 +19,18 @@ variable "domain" {
 }
 
 
-variable "instance_profile_name" {
-}
+# variable "instance_profile_name" {
+# }
 
-variable "instance_role_name" {
-}
+# variable "instance_role_name" {
+# }
 
 variable "region" {
   default = "us-east-1"
 }
 
-variable "security_group_id_jump_host" {
-}
+# variable "security_group_id_jump_host" {
+# }
 
 variable "vpc_id" {
 }

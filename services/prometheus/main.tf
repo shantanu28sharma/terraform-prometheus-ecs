@@ -3,9 +3,9 @@ locals {
   vpc_subnets        = split(",", var.vpc_subnets)
 
   az_map = {
-    "us-west-2a" = 0
-    "us-west-2b" = 1
-    "us-west-2c" = 2
+    "us-east-1a" = 0
+    "us-east-1b" = 1
+    "us-east-1c" = 2
   }
 }
 
@@ -59,7 +59,7 @@ data "aws_ami" "ecs" {
 
 resource "aws_launch_configuration" "prometheus" {
   name_prefix          = "${var.name}-"
-  iam_instance_profile = var.instance_profile_name
+  # iam_instance_profile = var.instance_profile_name
   image_id             = data.aws_ami.ecs.image_id
   instance_type        = var.instance_size
   security_groups      = [aws_security_group.prometheus.id]
@@ -113,7 +113,7 @@ resource "aws_security_group_rule" "allow_jump_host_ssh" {
   from_port                = 22
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
-  source_security_group_id = var.security_group_id_jump_host
+  # source_security_group_id = var.security_group_id_jump_host
   to_port                  = 22
   type                     = "ingress"
 }
@@ -122,7 +122,7 @@ resource "aws_security_group_rule" "allow_jump_host_http_prometheus" {
   from_port                = 9090
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
-  source_security_group_id = var.security_group_id_jump_host
+  # source_security_group_id = var.security_group_id_jump_host
   to_port                  = 9090
   type                     = "ingress"
 }
@@ -131,7 +131,7 @@ resource "aws_security_group_rule" "allow_jump_host_http_grafana" {
   from_port                = 3000
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
-  source_security_group_id = var.security_group_id_jump_host
+  # source_security_group_id = var.security_group_id_jump_host
   to_port                  = 3000
   type                     = "ingress"
 }
@@ -140,7 +140,7 @@ resource "aws_security_group_rule" "allow_jump_host_http_alertmanager" {
   from_port                = 9093
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
-  source_security_group_id = var.security_group_id_jump_host
+  # source_security_group_id = var.security_group_id_jump_host
   to_port                  = 9093
   type                     = "ingress"
 }

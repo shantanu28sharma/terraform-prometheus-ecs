@@ -82,7 +82,7 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "prometheus_s3_access" {
   policy_arn = aws_iam_policy.prometheus_s3_access.arn
-  role       = var.instance_role_name
+  role       = aws_iam_role.prometheus.id
 }
 
 # Allow EBS volume attachment
@@ -112,12 +112,12 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "prometheus_ebs_attachment" {
   policy_arn = aws_iam_policy.prometheus_ebs_attachment.arn
-  role       = var.instance_role_name
+  role       = aws_iam_role.prometheus.id
 }
 
 # Allow using Cloud Map
 resource "aws_iam_role_policy_attachment" "prometheus_cloudmap_route53_policy" {
-  role       = var.instance_role_name
+  role       = aws_iam_role.prometheus.id
   policy_arn = "arn:aws:iam::aws:policy/AmazonRoute53FullAccess"
 }
 
