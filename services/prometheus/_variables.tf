@@ -38,3 +38,10 @@ variable "vpc_id" {
 variable "vpc_subnets" {
 }
 
+variable "ecs_cluster_id" {
+  
+}
+
+variable "cloudmap_internal_id" {
+  
+}

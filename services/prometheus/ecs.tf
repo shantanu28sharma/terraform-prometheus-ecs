@@ -1,14 +1,14 @@
-resource "aws_ecs_cluster" "prometheus" {
-  name = var.name
-}
+# resource "aws_ecs_cluster" "prometheus" {
+#   name = var.name
+# }
 
-output "cluster_name" {
-  value = aws_ecs_cluster.prometheus.name
-}
+# output "cluster_name" {
+#   value = aws_ecs_cluster.prometheus.name
+# }
 
 resource "aws_ecs_service" "prometheus" {
   name            = var.name
-  cluster         = aws_ecs_cluster.prometheus.id
+  cluster         = var.ecs_cluster_id
   task_definition = aws_ecs_task_definition.prometheus.arn
   desired_count   = 1
 
@@ -37,8 +37,6 @@ resource "aws_ecs_service" "prometheus" {
   service_registries {
     registry_arn = var.cloudmap_arn
   }
-
-  depends_on = [aws_ecs_cluster.prometheus]
 }
 
 resource "aws_ecs_task_definition" "prometheus" {
