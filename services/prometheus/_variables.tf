@@ -46,9 +46,9 @@ variable "ecs_cluster_name" {
   
 }
 
-# variable "vpc_public_subnets" {
+variable "vpc_public_subnets" {
 
-# }
+}
 
 
 variable "cidr_block" {
