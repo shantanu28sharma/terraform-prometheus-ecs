@@ -86,7 +86,7 @@ resource "aws_launch_configuration" "prometheus" {
 
 # EC2 cluster instances - booting script
 data "template_file" "user_data" {
-  template = file("${path.module}/files/userdata.yml")
+  template = file("${path.module}/files/script.tpl")
 
   vars = {
     aws_region        = var.region
