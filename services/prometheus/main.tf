@@ -64,7 +64,7 @@ resource "aws_launch_configuration" "prometheus" {
   image_id             = data.aws_ami.ecs.image_id
   instance_type        = var.instance_size
   security_groups      = [aws_security_group.prometheus.id]
-  user_data            = "#!/bin/bash\necho ECS_CLUSTER=monitoring >> /etc/ecs/ecs.config"
+  user_data            = data.template_file.user_data.rendered
 
   depends_on = [aws_security_group.prometheus]
 
