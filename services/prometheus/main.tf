@@ -65,7 +65,7 @@ resource "aws_launch_configuration" "prometheus" {
   instance_type        = var.instance_size
   security_groups      = [aws_security_group.prometheus.id]
   user_data            = data.template_file.user_data.rendered
-
+  associate_public_ip_address = true
   depends_on = [aws_security_group.prometheus]
 
   lifecycle {
@@ -90,7 +90,6 @@ resource "aws_security_group" "prometheus" {
   name        = var.name
   description = "${var.name} Security Group"
   vpc_id      = var.vpc_id
-  # subnets = var.vpc_public_subnets
 
   tags = {
     Name = "${var.name}-${var.name}-alb"
@@ -115,7 +114,7 @@ resource "aws_security_group_rule" "allow_jump_host_ssh" {
   from_port                = 22
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
-  cidr_blocks       = [var.cidr_block]
+  cidr_blocks              = ["0.0.0.0/0"]
   to_port                  = 22
   type                     = "ingress"
 }
@@ -124,7 +123,7 @@ resource "aws_security_group_rule" "allow_jump_host_http_prometheus" {
   from_port                = 9090
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
-  cidr_blocks       = [var.cidr_block]
+  cidr_blocks              = ["0.0.0.0/0"]
   to_port                  = 9090
   type                     = "ingress"
 }
@@ -133,7 +132,7 @@ resource "aws_security_group_rule" "allow_jump_host_http_grafana" {
   from_port                = 3000
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
-cidr_blocks       = [var.cidr_block]
+  cidr_blocks              = ["0.0.0.0/0"]
   to_port                  = 3000
   type                     = "ingress"
 }
@@ -142,7 +141,7 @@ resource "aws_security_group_rule" "allow_jump_host_http_alertmanager" {
   from_port                = 9093
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
-  cidr_blocks       = [var.cidr_block]
+  cidr_blocks              = ["0.0.0.0/0"]
   to_port                  = 9093
   type                     = "ingress"
 }
