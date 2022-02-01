@@ -49,6 +49,16 @@ resource "aws_autoscaling_group" "prometheus" {
   depends_on = [aws_launch_configuration.prometheus]
 }
 
+resource "tls_private_key" "example" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "generated_key" {
+  key_name   = var.name
+  public_key = tls_private_key.example.public_key_openssh
+}
+
 # EC2 cluster instances - booting script
 data "aws_ami" "ecs" {
   most_recent = true
@@ -65,6 +75,7 @@ resource "aws_launch_configuration" "prometheus" {
   instance_type        = var.instance_size
   security_groups      = [aws_security_group.prometheus.id]
   user_data            = data.template_file.user_data.rendered
+  key_name      = aws_key_pair.generated_key.key_name
   associate_public_ip_address = true
   depends_on = [aws_security_group.prometheus]
 
