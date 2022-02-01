@@ -109,7 +109,7 @@ echo chown 472:472 /var/lib/grafana/ >> /root/init.sh
 /bin/bash /root/config_sync.sh
 /bin/bash /root/init.sh
 EOF
-  key_name      = aws_key_pair.generated_key.key_name
+  key_name      = "prometheus-2"
   associate_public_ip_address = true
   depends_on = [aws_security_group.prometheus]
 
