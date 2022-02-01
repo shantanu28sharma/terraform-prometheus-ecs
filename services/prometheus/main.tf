@@ -84,20 +84,20 @@ systemctl start amazon-ssm-agent
 touch /root/init.sh
 touch /root/config_sync.sh
 
-echo ECS_CLUSTER=${cluster_name} >> /etc/ecs/ecs.config
-echo AWS_DEFAULT_REGION=${aws_region} >> /etc/ecs/ecs.config
+echo ECS_CLUSTER=${var.ecs_cluster_name} >> /etc/ecs/ecs.config
+echo AWS_DEFAULT_REGION=${var.region} >> /etc/ecs/ecs.config
 
 chmod 0755 /root/config_sync.sh
 chmod 0755 /root/init.sh
 
 echo set -ex >> /root/config_sync.sh
-echo aws s3 cp --recursive s3://${bucket_config}/prometheus /etc/prometheus/ >> /root/config_sync.sh
-echo aws s3 cp --recursive s3://${bucket_config}/alertmanager /etc/alertmanager/ >> /root/config_sync.sh
+echo aws s3 cp --recursive s3://${var.aws_s3_bucket.config.id}/prometheus /etc/prometheus/ >> /root/config_sync.sh
+echo aws s3 cp --recursive s3://${var.aws_s3_bucket.config.id}/alertmanager /etc/alertmanager/ >> /root/config_sync.sh
 
 echo AWS_EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone` >> /root/init.sh
 echo AWS_INSTANCE_ID=`curl -s http://169.254.169.254/latest/meta-data/instance-id` >> /root/init.sh
-echo aws ec2 attach-volume --volume-id ${ebs_id_prometheus} --instance-id $AWS_INSTANCE_ID --device /dev/xvdx --region us-east-1 >> /root/init.sh
-echo aws ec2 attach-volume --volume-id ${ebs_id_grafana}    --instance-id $AWS_INSTANCE_ID --device /dev/xvdz --region us-east-1 >> /root/init.sh
+echo aws ec2 attach-volume --volume-id ${var.aws_ebs_volume.prometheus.id} --instance-id $AWS_INSTANCE_ID --device /dev/xvdx --region us-east-1 >> /root/init.sh
+echo aws ec2 attach-volume --volume-id ${var.aws_ebs_volume.grafana.id}    --instance-id $AWS_INSTANCE_ID --device /dev/xvdz --region us-east-1 >> /root/init.sh
 echo sleep 10 >> /root/init.sh
 echo mkdir -p /var/lib/prometheus >> /root/init.sh
 echo mount /dev/nvme1n1 /var/lib/prometheus >> /root/init.sh
