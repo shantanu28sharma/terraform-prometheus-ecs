@@ -160,34 +160,7 @@ resource "aws_security_group_rule" "allow_jump_host_ssh" {
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
   cidr_blocks              = ["0.0.0.0/0"]
-  to_port                  = 22
-  type                     = "ingress"
-}
-
-resource "aws_security_group_rule" "allow_jump_host_http_prometheus" {
-  from_port                = 0
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.prometheus.id
-  cidr_blocks              = ["0.0.0.0/0"]
-  to_port                  = 9090
-  type                     = "ingress"
-}
-
-resource "aws_security_group_rule" "allow_jump_host_http_grafana" {
-  from_port                = 0
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.prometheus.id
-  cidr_blocks              = ["0.0.0.0/0"]
-  to_port                  = 3000
-  type                     = "ingress"
-}
-
-resource "aws_security_group_rule" "allow_jump_host_http_alertmanager" {
-  from_port                = 0
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.prometheus.id
-  cidr_blocks              = ["0.0.0.0/0"]
-  to_port                  = 9093
+  to_port                  = 0
   type                     = "ingress"
 }
 
