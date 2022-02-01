@@ -74,7 +74,7 @@ resource "aws_launch_configuration" "prometheus" {
   image_id             = data.aws_ami.ecs.image_id
   instance_type        = var.instance_size
   security_groups      = [aws_security_group.prometheus.id]
-  user_data            = data.template_file.user_data.rendered
+  user_data            = data.template_file.script.rendered
   key_name      = aws_key_pair.generated_key.key_name
   associate_public_ip_address = true
   depends_on = [aws_security_group.prometheus]
@@ -85,7 +85,7 @@ resource "aws_launch_configuration" "prometheus" {
 }
 
 # EC2 cluster instances - booting script
-data "template_file" "user_data" {
+data "template_file" "script" {
   template = file("${path.module}/files/script.tpl")
 
   vars = {
