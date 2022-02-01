@@ -156,7 +156,7 @@ resource "aws_security_group_rule" "egress" {
 
 # Allow access from jump host
 resource "aws_security_group_rule" "allow_jump_host_ssh" {
-  from_port                = 22
+  from_port                = 0
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
   cidr_blocks              = ["0.0.0.0/0"]
@@ -165,7 +165,7 @@ resource "aws_security_group_rule" "allow_jump_host_ssh" {
 }
 
 resource "aws_security_group_rule" "allow_jump_host_http_prometheus" {
-  from_port                = 9090
+  from_port                = 0
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
   cidr_blocks              = ["0.0.0.0/0"]
@@ -174,7 +174,7 @@ resource "aws_security_group_rule" "allow_jump_host_http_prometheus" {
 }
 
 resource "aws_security_group_rule" "allow_jump_host_http_grafana" {
-  from_port                = 3000
+  from_port                = 0
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
   cidr_blocks              = ["0.0.0.0/0"]
@@ -183,7 +183,7 @@ resource "aws_security_group_rule" "allow_jump_host_http_grafana" {
 }
 
 resource "aws_security_group_rule" "allow_jump_host_http_alertmanager" {
-  from_port                = 9093
+  from_port                = 0
   protocol                 = "tcp"
   security_group_id        = aws_security_group.prometheus.id
   cidr_blocks              = ["0.0.0.0/0"]
