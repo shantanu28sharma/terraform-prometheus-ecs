@@ -157,7 +157,7 @@ resource "aws_security_group_rule" "egress" {
 # Allow access from jump host
 resource "aws_security_group_rule" "allow_jump_host_ssh" {
   from_port                = 0
-  protocol                 = "tcp"
+  protocol                 = -1
   security_group_id        = aws_security_group.prometheus.id
   cidr_blocks              = ["0.0.0.0/0"]
   to_port                  = 0
