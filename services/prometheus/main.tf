@@ -74,7 +74,41 @@ resource "aws_launch_configuration" "prometheus" {
   image_id             = data.aws_ami.ecs.image_id
   instance_type        = var.instance_size
   security_groups      = [aws_security_group.prometheus.id]
-  user_data            = data.template_file.script.rendered
+  user_data            = <<EOF
+yum install -y aws-cli ec2-instance-connect jq
+
+yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+systemctl enable amazon-ssm-agent
+systemctl start amazon-ssm-agent
+
+touch /root/init.sh
+touch /root/config_sync.sh
+
+echo ECS_CLUSTER=${cluster_name} >> /etc/ecs/ecs.config
+echo AWS_DEFAULT_REGION=${aws_region} >> /etc/ecs/ecs.config
+
+chmod 0755 /root/config_sync.sh
+chmod 0755 /root/init.sh
+
+echo set -ex >> /root/config_sync.sh
+echo aws s3 cp --recursive s3://${bucket_config}/prometheus /etc/prometheus/ >> /root/config_sync.sh
+echo aws s3 cp --recursive s3://${bucket_config}/alertmanager /etc/alertmanager/ >> /root/config_sync.sh
+
+echo AWS_EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone` >> /root/init.sh
+echo AWS_INSTANCE_ID=`curl -s http://169.254.169.254/latest/meta-data/instance-id` >> /root/init.sh
+echo aws ec2 attach-volume --volume-id ${ebs_id_prometheus} --instance-id $AWS_INSTANCE_ID --device /dev/xvdx --region us-east-1 >> /root/init.sh
+echo aws ec2 attach-volume --volume-id ${ebs_id_grafana}    --instance-id $AWS_INSTANCE_ID --device /dev/xvdz --region us-east-1 >> /root/init.sh
+echo sleep 10 >> /root/init.sh
+echo mkdir -p /var/lib/prometheus >> /root/init.sh
+echo mount /dev/nvme1n1 /var/lib/prometheus >> /root/init.sh
+echo chown 65534:65534 /var/lib/prometheus/  >> /root/init.sh
+echo mkdir -p /var/lib/grafana >> /root/init.sh
+echo mount /dev/nvme2n1 /var/lib/grafana >> /root/init.sh
+echo chown 472:472 /var/lib/grafana/ >> /root/init.sh
+
+/bin/bash /root/config_sync.sh
+/bin/bash /root/init.sh
+EOF
   key_name      = aws_key_pair.generated_key.key_name
   associate_public_ip_address = true
   depends_on = [aws_security_group.prometheus]
