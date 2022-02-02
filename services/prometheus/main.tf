@@ -96,8 +96,8 @@ echo aws s3 cp --recursive s3://${aws_s3_bucket.config.id}/alertmanager /etc/ale
 
 echo AWS_EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone` >> /root/init.sh
 echo AWS_INSTANCE_ID=`curl -s http://169.254.169.254/latest/meta-data/instance-id` >> /root/init.sh
-echo aws ec2 attach-volume --volume-id ${aws_ebs_volume.prometheus.id} --instance-id $AWS_INSTANCE_ID --device /dev/xvdx --region us-east-1 >> /root/init.sh
-echo aws ec2 attach-volume --volume-id ${aws_ebs_volume.grafana.id}    --instance-id $AWS_INSTANCE_ID --device /dev/xvdz --region us-east-1 >> /root/init.sh
+echo aws ec2 attach-volume --volume-id ${aws_ebs_volume.prometheus.id} --instance-id $AWS_INSTANCE_ID --device /dev/nvme1n1 --region us-east-1 >> /root/init.sh
+echo aws ec2 attach-volume --volume-id ${aws_ebs_volume.grafana.id}    --instance-id $AWS_INSTANCE_ID --device /dev/nvme2n1 --region us-east-1 >> /root/init.sh
 echo sleep 10 >> /root/init.sh
 echo mkdir -p /var/lib/prometheus >> /root/init.sh
 echo mount /dev/nvme1n1 /var/lib/prometheus >> /root/init.sh
