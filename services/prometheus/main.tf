@@ -75,11 +75,10 @@ resource "aws_launch_configuration" "prometheus" {
   instance_type        = var.instance_size
   security_groups      = [aws_security_group.prometheus.id]
   user_data            = <<EOF
-sudo su
+yum update -y
 yum install -y aws-cli ec2-instance-connect jq
 
 yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
-systemctl enable amazon-ssm-agent
 systemctl start amazon-ssm-agent
 
 touch /root/init.sh
