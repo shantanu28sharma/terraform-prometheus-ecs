@@ -119,17 +119,17 @@ EOF
 }
 
 # EC2 cluster instances - booting script
-data "template_file" "script" {
-  template = file("${path.module}/files/script.tpl")
+# data "template_file" "script" {
+#   template = file("${path.module}/files/script.tpl")
 
-  vars = {
-    aws_region        = var.region
-    bucket_config     = aws_s3_bucket.config.id
-    ebs_id_prometheus = aws_ebs_volume.prometheus.id
-    ebs_id_grafana    = aws_ebs_volume.grafana.id
-    cluster_name      = var.ecs_cluster_name
-  }
-}
+#   vars = {
+#     aws_region        = var.region
+#     bucket_config     = aws_s3_bucket.config.id
+#     ebs_id_prometheus = aws_ebs_volume.prometheus.id
+#     ebs_id_grafana    = aws_ebs_volume.grafana.id
+#     cluster_name      = var.ecs_cluster_name
+#   }
+# }
 
 resource "aws_security_group" "prometheus" {
   name        = var.name
